@@ -1,0 +1,31 @@
+    
+ssh root@72.60.197.169
+
+scp -r username@remote_host:/path/to/remote/folder C:\path\to\local\folder
+
+scp -r root@72.60.197.169:/geminifilesearchfolder D:\bkup1
+
+scp -r "C:\myapp26dec24v2vcpy" root@72.60.197.169:/root/nodejs/cmd
+
+scp -r root@72.60.197.169:/root/geminifilesearchfolder "d:\bkup1"
+
+scp -r root@72.60.197.169:/root/geminifilesearchfolder "D:/bkup1"
+
+scp -r root@72.60.197.169:/root/geminifilesearchfolder /d/bkup1
+
+scp -r root@72.60.197.169:/root/geminifilesearchfolder D:\bkup1
+
+scp -r root@72.60.197.169:/root/geminifilesearchfolder/* D:\bkupgemin
+scp -r root@72.60.197.169:/root/filesearchfolder/*.py D:\bkupfilesearch1
+filesearchfolder
+
+---
+Open Command Prompt or PowerShell on Windows.
+Use the scp command to copy the file:
+Run the command: scp [path_to_windows_file] [ubuntu_username]@[ubuntu_ip_address]:[path_on_ubuntu]. 
+For example: scp C:/Users/MyUser/Documents/report.txt admin@192.168.1.100:/home/admin/documents/. 
+To copy a folder recursively, use the -r flag (e.g., scp -r C:/Users/MyUser/Documents/MyFolder admin@192.168.1.100:/home/admin/backup/). 
+You will be prompted to enter the Ubuntu user's password.
+
+scp bkup.GHO root@148.230.88.136:/root/bkuppc
+

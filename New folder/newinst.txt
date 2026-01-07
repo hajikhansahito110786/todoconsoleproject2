@@ -1,0 +1,99 @@
+sudo apt update
+
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
+npm install -g @google/gemini-cli
+gemini --help
+gemini --list-extensions
+
+
+sudo apt update
+sudo apt install python3 python3-pip -y
+pip3 install fastapi uvicorn
+
+
+# Save this as main.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello from FastAPI!"}
+
+root@srv1024141:~# cd fastapimain
+root@srv1024141:~/fastapimain# 
+cd fastapimain
+source venv/bin/activate
+uvicorn main:app --host 0.0.0.0 --port 8000
+python3 -m venv venv
+source venv/bin/activate
+
+apt install python3.12-venv
+pip install fastapi uvicorn
+pip install fastapi uvicorn
+pip list
+ls
+which python
+python --version
+deactivate
+rm -rf venv
+
+148.230.88.136
+http://148.230.88.136:8000/
+
+You can test your API by visiting:
+
+http://your_server_ip:8000
+Or check the automatic docs at http://your_server_ip:8000/docs
+
+To run your FastAPI app 24/7, you should use a process manager like systemd to create a service
+
+sudo systemctl daemon-reload
+sudo systemctl start fastapi
+sudo systemctl enable fastapi
+
+
+
+sudo systemctl daemon-reload
+sudo systemctl start fastapigemini
+sudo systemctl enable fastapigemini
+sudo systemctl status fastapigemini
+sudo journalctl -u fastapigemini -f
+
+n8n
+http://localhost:5678 on remote
+
+/etc/systemd/system
+
+----
+desktop
+
+sudo apt update
+sudo apt install ubuntu-desktop -y
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb -y
+
+
+sudo apt install xrdp -y
+sudo systemctl enable xrdp
+sudo systemctl start xrdp
+
+
+sudo adduser luser
+luser
+@Hk89as5
+keyring 123
+You’re very welcome
+
+sudo nano /etc/systemd/system/fastapi.service
+
+
+sudo systemctl daemon-reload
+sudo systemctl start fastapi
+sudo systemctl enable fastapi
+
+sudo systemctl status fastapi
+
+

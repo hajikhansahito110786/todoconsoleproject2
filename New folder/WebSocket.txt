@@ -1,0 +1,72 @@
+Here are simple examples of a WebSocket server and client in Python using the websockets library.
+1. WebSocket Server (server.py)
+Python
+
+import asyncio
+import websockets
+
+async def echo(websocket, path):
+    """
+    Handles incoming WebSocket connections and echoes back received messages.
+    """
+    async for message in websocket:
+        print(f"Received from client: {message}")
+        await websocket.send(f"Server received: {message}")
+
+async def main():
+    """
+    Starts the WebSocket server.
+    """
+    print("Starting WebSocket server on ws://localhost:8765")
+    async with websockets.serve(echo, "localhost", 8765):
+        await asyncio.Future()  # Run forever
+
+if __name__ == "__main__":
+    asyncio.run(main())
+Explanation:
+echo(websocket, path): This asynchronous function is the handler for each new WebSocket connection. It receives messages from the client using async for message in websocket: and sends a response back using await websocket.send().
+main(): This function sets up and starts the WebSocket server. websockets.serve(echo, "localhost", 8765) creates the server, listening on localhost and port 8765. await asyncio.Future() keeps the server running indefinitely.
+asyncio.run(main()): This starts the asyncio event loop and runs the main function.
+2. WebSocket Client (client.py)
+Python
+
+import asyncio
+import websockets
+
+async def send_and_receive():
+    """
+    Connects to the WebSocket server, sends a message, and receives a response.
+    """
+    uri = "ws://localhost:8765"
+    async with websockets.connect(uri) as websocket:
+        message_to_send = "Hello from client!"
+        await websocket.send(message_to_send)
+        print(f"Sent to server: {message_to_send}")
+
+        response = await websocket.recv()
+        print(f"Received from server: {response}")
+
+async def main():
+    """
+    Runs the WebSocket client.
+    """
+    await send_and_receive()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+Explanation:
+send_and_receive(): This function connects to the server using websockets.connect(), sends a message using await websocket.send(), and then waits for and receives a response using await websocket.recv().
+main(): This function simply calls send_and_receive().
+asyncio.run(main()): This starts the asyncio event loop and runs the main function for the client.
+How to Run:
+Save the server code as server.py and the client code as client.py.
+Open two separate terminal windows.
+In the first terminal, run the server:
+Code
+
+    python server.py
+In the second terminal, run the client:
+Code
+
+    python client.py
+You will see the messages being exchanged between the client and the server in their respective terminal outputs.

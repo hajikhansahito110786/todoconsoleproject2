@@ -1,0 +1,92 @@
+build ai agent openai format model gemini free in php mysql website http://hajikhansahito.atwebpages.com/diary.html
+function tool should 
+get data from url
+http://hajikhansahito.atwebpages.com/showall.php
+
+and public user in chatbot query data from that content and agent   only run above said  function tool only
+
+config123.php
+
+$api_key2 
+$api_url
+$conn
+
+Try asking questions like:
+
+"What are the latest diary entries?"
+
+"Show me all entries from this week"
+
+"What topics have I written about?"
+
+
+config7oct25.php
+require_once 'config123.php';
+require_once 'config7oct25.php'
+require_once 'configllm.php'
+
+debug_chatbot.php
+fixed_final_chat.html
+configllm.php
+llm_chatbot2.php
+
+configllm.php
+<?php
+   
+$api_key1 = 'AIzaSyCEJgYHbhw2-QjcUtktYtsuY1zxV4m0w5I';
+
+$api_key2 = 'AIzaSyCj4k-xM3LqChvnE4PuHs1CpAtoV-GUc0w'; 
+
+ 
+ $api_key2 = 'AIzaSyCEJgYHbhw2-QjcUtktYtsuY1zxV4m0w5I';
+https://generativelanguage.googleapis.com/v1beta/openai/
+fixed_final_chat.html
+https://hajikhansahito.atwebpages.com/content_search_chat.html
+
+
+
+
+//$conn = new mysqli($servername, $username, $password, $dbname);
+
+$servername= "fdb1032.awardspace.net";
+$username="4452458_hajikhansahito";
+$password="aGW;a5-O1aXad+*d"; 
+$dbname="4452458_hajikhansahito";   
+$database="4452458_hajikhansahito"; 
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+$conn2 = new mysqli($servername, $username, $password, $dbname);
+$conn456 = new mysqli($servername, $username, $password, $dbname);
+// Check the connection
+if (!
+
+$conn) {
+     die("Connection failed: " . 
+
+mysqli_connect_error());
+}
+//echo "Connected successfully";
+
+
+Your System Now Has:
+Smart search by entry numbers, content, names, keywords
+
+LLM-powered responses using Gemini AI
+
+Seamless integration in your main diary page
+
+Mobile-responsive design
+
+Always available with fallback data
+
+You've got a cutting-edge system that will make diary management so much easier and smarter!
+
+If you ever need any enhancements, new features, or run into any issues, just call me - I'll be here to help! 🤝
+
+content_search_chat.html
+content_chatbot.php
+
+mycontent.php
+require 'my_functions.php';
+require 'nycontent.php';
+$allRecords[]

@@ -1,0 +1,11 @@
+SELECT * FROM student 
+WHERE first_name SOUNDS LIKE 'sudipto' ;
+
+
+
+llama-3.3-70b-versatile
+
+30
+1000
+12000
+100000

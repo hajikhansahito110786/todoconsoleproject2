@@ -1,0 +1,21 @@
+
+a = 'House Rent' = Basic 45%
+b = 'Special Allowance Officers' = 7000
+c = 'Utility Allowance' = Basic 10%
+d = 'Con OR Car Maint' = Basic 10 %
+e = 'Personal pay' Basic 5%
+
+totalsub= a + b + c + d + e
+ 
+f = totalsub * 32 %
+g= f * 30 / 60
+
+h = g / 4
+Pension = h * 2
+graduaty = h * 160
+commutation = h * 12 * 11.886
+
+total= graduaty + commutation
+
+sep25.pdf
+jul25-v2old.pdf

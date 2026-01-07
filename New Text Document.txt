@@ -1,0 +1,16 @@
+# Terminal 1 - Backend
+cd D:\aa-w\tododswithsqlmodelneon5withfrontend
+python app.py
+
+
+
+
+# Test backend
+curl http://localhost:8000/health
+
+# Test frontend
+curl http://localhost:8080/
+
+D:\aa-w\tododswithsqlmodelneon4withfrontendnextjs
+cd D:\aa-w\tododswithsqlmodelneon5withfrontendnextjs
+npm run dev

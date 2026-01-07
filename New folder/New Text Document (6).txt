@@ -1,0 +1,77 @@
+ 294660
+https://myflaginsky.shop/hajikhansahito/diarydispatch2.php
+https://hajikhansahito.atwebpages.com/diaryadd2c.php
+------------
+<input type="hidden" name="user123" id="user123" value="<?php echo $user123=$_POST['user123']; ?>" />
+              <?php 
+     
+              if ($user123 <> "user123") {
+echo "wrong";
+        ?>
+ <script>
+     
+ window.location.replace("diary.html");
+ //window.location.replace("showall.php");
+</script>
+<?php
+        
+  }   
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;   
+        
+echo "correct";
+  
+            ?>  
+
+-----------
+<body>
+     <?php
+  require_once 'creation.php';     
+?>
+
+
+
+
+--------
+diaryadd1.html
+-------------
+<?php
+session_start();
+//require_once 'configllm.php';
+
+// If user is already logged in, redirect to diary page
+if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("Location: diaryadd2c.php");
+    exit;
+}
+
+// Process login when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username1'] ?? '';
+    $password = $_POST['password1'] ?? '';
+    
+    // Add your actual authentication logic here
+    // For now, using simple validation
+    if(!empty($username) && !empty($password)) {
+        // Set session variables
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+        
+        // Redirect to diary page
+        header("Location: diaryadd2.php");
+        exit;
+    } else {
+        $error = "Please enter both username and password";
+    }
+}
+?>
+
+<!DOCTYPE html>
+
+ <div class="form-group">
+                <label for="password1">
+                    <i class="fas fa-lock"></i>
+                    ...
+                </label>
+                <input type="hidden" id="user123" name="user123" class="form-control" maxlength="10" value="user123"  readonly>
+            </div>

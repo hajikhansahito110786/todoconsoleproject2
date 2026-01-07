@@ -1,0 +1,47 @@
+# Gemini CLI installed
+npm install -g @google/gemini-cli
+
+# API key set
+set GOOGLE_API_KEY=your-api-key-here
+
+# Python dependencies
+pip install fastapi uvicorn mysql-connector-python python-multipart
+
+
+
+python gemini_fastapi.py
+
+http://localhost:8080
+
+
+
+
+on remote 
+export GOOGLE_API_KEY="AIzaSyCEJgYHbhw2-QjcUtktYtsuY1zxV4m0w5I"
+export GEMINI_API_KEY=your_actual_api_key_here
+
+export GEMINI_API_KEY="AIzaSyCEJgYHbhw2-QjcUtktYtsuY1zxV4m0w5I"
+
+cd /root/geminifilesearchfolder
+python3 -m venv venv
+source venv/bin/activate
+pip install fastapi uvicorn
+# If your app requires other packages, install them as well:
+# pip install -r requirements.txt
+uvicorn gemini_app:app --host 0.0.0.0 --port 8001
+http://72.60.197.169:8001
+
+sudo systemctl daemon-reload
+sudo systemctl enable gemini_app
+sudo systemctl start gemini_app
+sudo systemctl status gemini_app
+
+sudo systemctl restart gemini_app
+
+sudo systemctl daemon-reload
+sudo systemctl restart gemini_app
+
+
+
+
+

@@ -1,0 +1,38 @@
+Subject: AI-Powered Document Query System Development
+
+Sir,
+
+I have successfully developed an AI-powered computer program that enables intelligent querying and analysis of company manuals and documents.
+
+System Overview:
+The system allows users to ask natural language questions about company manuals, and the AI will instantly provide accurate answers by analyzing the document content.
+
+Key Benefits:
+
+Quick Information Retrieval: HR officers and administrators can find specific information from manuals within seconds
+
+Natural Language Processing: Users can ask questions in everyday language without needing to know exact terminology
+
+Time Efficiency: Eliminates manual searching through lengthy documents
+
+Multi-Format Support: Works with PDF, DOCX, XLSX, and text files
+
+Sample Use Case:
+For example, an HR officer can ask: "What is the maternity leave policy duration?" and the system will instantly provide the exact policy details from the employee manual.
+
+Future Potential:
+This technology can be extended to other company manuals and documents across various departments, providing similar benefits organization-wide.
+
+I request your approval to further develop this system for additional company manuals, as it has significant potential to improve operational efficiency and information accessibility.
+
+Thank you for your consideration.
+
+http://72.60.197.169:8080/filesearch
+
+usernane hk123
+password hk123
+
+Best regards,
+Haji khan 
+manager p-54280
+

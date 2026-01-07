@@ -1,0 +1,31 @@
+<input type="text" name="username1" size="10" maxsize="10">
+
+</tr>
+
+<tr>
+
+password
+
+</tr>
+
+<tr>
+
+<input type="password" name="password1" size="10" maxsize="10">
+
+host=fdb1032.awardspace.net  3306
+user=4452458_hajikhansahito
+
+Database details for 4452458_hajikhansahito
+Below you can find detailed information for your database.
+Database Host:
+fdb1032.awardspace.net
+Database Port:
+3306
+Database Name:
+4452458_hajikhansahito
+Database User:
+4452458_hajikhansahito
+Database Password:
+(The password for 4452458_hajikhansahito) change
+Database Version:
+8.0

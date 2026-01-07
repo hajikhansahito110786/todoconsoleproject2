@@ -1,0 +1,39 @@
+
+<?php
+$password="encycloencycloQAZ!123";
+$servername= "p3plzcpnl455587";
+$username="id20302974_hajik";
+$dbname="id20302974_hk";
+//
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+$username1=$_POST[username1];
+$password1=$_POST[password1];
+//echo "Connected  1   $username1 successfully  2 $password1";
+
+$username1="one";
+$password1="110";
+$sql="select username from usernames WHERE username='$username1' and 
+userpassword='$password1'";
+
+// echo " here 1 apr 19 dbhost $dbhost uu2 $username and userpassword $password  ";
+//$sql_result=mysql_query($sql,$connection) or die ("could not execute query");
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+
+date_default_timezone_set("Asia/Karachi");
+
+    $dt=date('Y-m-d H:i:s'); //Returns IST
+
+
+//echo "dt $dt";
+
+//echo "d $d";
+
+//echo "t $t1";
+}
+?>
+
+
+

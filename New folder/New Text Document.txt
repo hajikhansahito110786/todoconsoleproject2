@@ -1,0 +1,23 @@
+# Terminal 1 - Backend
+cd D:\aa-w\tododswithsqlmodelneon3withfrontend
+python app.py
+
+# Terminal 2 - Frontend  
+cd D:\aa-w\tododswithsqlmodelneon3withfrontend
+python -m http.server 8080 --directory frontend
+
+
+# Test backend
+curl http://localhost:8000/health
+
+# Test frontend
+curl http://localhost:8080/
+
+
+# Install Node.js first (if not installed)
+# Download from: https://nodejs.org/
+
+# Then create Next.js app
+npx create-next-app@latest frontend-nextjs --typescript --tailwind --app
+cd frontend-nextjs
+npm install axios react-query @tanstack/react-query
