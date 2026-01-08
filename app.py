@@ -14,102 +14,15 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL, echo=True)
 
-# ========== MODELS ==========
-class Student(SQLModel, table=True):
-    __tablename__ = "student"
-    
-    id: Optional[int] = Field(default=None, primary_key=True)
-    nameplz: str = Field(index=True)
-    name: Optional[str] = Field(default=None, index=True)
-    email: str = Field(index=True)
-    created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-
-class StudentCreate(BaseModel):
-    name: str
-    email: str
-
-class StudentUpdate(BaseModel):
-    name: Optional[str] = None
-    email: Optional[str] = None
-
-class StudentRead(BaseModel):
-    id: int
-    name: str
-    email: str
-    created_at: Optional[datetime]
-
-class Priority(str, Enum):
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
-
-class Status(str, Enum):
-    TODO = "todo"
-    IN_PROGRESS = "in_progress"
-    DONE = "done"
-
-class Todo(SQLModel, table=True):
-    __tablename__ = "todo"
-    
-    id: Optional[int] = Field(default=None, primary_key=True)
-    title: str = Field(index=True)
-    description: Optional[str] = Field(default=None)
-    priority: Priority = Field(default=Priority.MEDIUM)
-    status: Status = Field(default=Status.TODO)
-    due_date: Optional[datetime] = Field(default=None)
-    student_id: Optional[int] = Field(default=None, foreign_key="student.id")
-    created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    completed_at: Optional[datetime] = Field(default=None)
-
-class TodoCreate(BaseModel):
-    title: str
-    description: Optional[str] = None
-    priority: Priority = Priority.MEDIUM
-    status: Status = Status.TODO
-    due_date: Optional[datetime] = None
-    student_id: Optional[int] = None
-
-class TodoRead(BaseModel):
-    id: int
-    title: str
-    description: Optional[str]
-    priority: Priority
-    status: Status
-    due_date: Optional[datetime]
-    student_id: Optional[int]
-    created_at: Optional[datetime]
-    completed_at: Optional[datetime]
-
-class TodoUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    priority: Optional[Priority] = None
-    status: Optional[Status] = None
-    due_date: Optional[datetime] = None
-    student_id: Optional[int] = None
+# ========== IMPORTS FROM UNIFIED MODELS AND SCHEMAS ==========
+from models import Student, Todo, Priority, Status, get_session
+from schemas import (
+    StudentCreate, StudentUpdate, StudentRead,
+    TodoCreate, TodoUpdate, TodoRead
+)
 
 # ========== DATABASE HELPER ==========
-def ensure_name_field():
-    """Ensure name field exists and has data"""
-    with Session(engine) as session:
-        result = session.exec(text("""
-            SELECT column_name 
-            FROM information_schema.columns 
-            WHERE table_name = 'student' AND column_name = 'name'
-        """)).first()
-        
-        if not result:
-            print("⚠️  'name' column doesn't exist, adding...")
-            session.exec(text("ALTER TABLE student ADD COLUMN name VARCHAR(100)"))
-            session.commit()
-            print("✅ Added 'name' column to student table")
-        
-        session.exec(text("""
-            UPDATE student 
-            SET name = nameplz 
-            WHERE name IS NULL OR name = ''
-        """))
-        session.commit()
+
 
 # ========== LIFESPAN ==========
 @asynccontextmanager
@@ -118,7 +31,6 @@ async def lifespan(app: FastAPI):
     print("🚀 Starting Student Todo Management System")
     print("="*50)
     
-    ensure_name_field()
     SQLModel.metadata.create_all(engine)
     print("✅ Database ready!")
     
@@ -148,7 +60,7 @@ def student_db_to_read(student_db: Student) -> StudentRead:
     """Convert database model to API response"""
     return StudentRead(
         id=student_db.id,
-        name=student_db.name or student_db.nameplz or "",
+        name=student_db.name,
         email=student_db.email,
         created_at=student_db.created_at
     )
@@ -172,7 +84,6 @@ def todo_db_to_read(todo_db: Todo) -> TodoRead:
 async def create_student(student: StudentCreate):
     with Session(engine) as session:
         db_student = Student(
-            nameplz=student.name,
             name=student.name,
             email=student.email
         )
@@ -203,7 +114,6 @@ async def update_student(student_id: int, student_update: StudentUpdate):
             raise HTTPException(status_code=404, detail="Student not found")
         
         if student_update.name is not None:
-            student.nameplz = student_update.name
             student.name = student_update.name
         
         if student_update.email is not None:

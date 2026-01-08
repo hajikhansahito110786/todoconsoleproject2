@@ -1,55 +1,51 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional
+from pydantic import BaseModel, EmailStr, ConfigDict
+from typing import Optional, List
 from datetime import datetime
+from models import Priority, Status # Import enums from models.py
 
 # Student Schemas
-class StudentBase(BaseModel):
+class StudentCreate(BaseModel):
     name: str
     email: EmailStr
 
-class StudentCreate(StudentBase):
-    pass
+class StudentUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None # Use EmailStr for consistency
 
-class StudentRead(StudentBase):
+class StudentRead(BaseModel):
     id: int
-    created_at: datetime
-    
-    class Config:
-        from_attributes = True
+    name: str
+    email: EmailStr
+    created_at: Optional[datetime]
 
-# Student Class/Todo Schemas
-class StudentClassBase(BaseModel):
-    class_name: str
-    class_code: str
-    semester: str
-    status: Optional[str] = "pending"
-    priority: Optional[str] = "medium"
+    model_config = ConfigDict(from_attributes=True) # Address Pydantic v2 warning
+
+# Todo Schemas
+class TodoCreate(BaseModel):
+    title: str
     description: Optional[str] = None
+    priority: Priority = Priority.MEDIUM
+    status: Status = Status.TODO
     due_date: Optional[datetime] = None
+    student_id: Optional[int] = None
 
-class StudentClassCreate(StudentClassBase):
-    student_id: int
-
-class StudentClassUpdate(BaseModel):
-    class_name: Optional[str] = None
-    class_code: Optional[str] = None
-    semester: Optional[str] = None
-    status: Optional[str] = None
-    priority: Optional[str] = None
+class TodoUpdate(BaseModel):
+    title: Optional[str] = None
     description: Optional[str] = None
+    priority: Optional[Priority] = None
+    status: Optional[Status] = None
     due_date: Optional[datetime] = None
+    student_id: Optional[int] = None
 
-class StudentClassRead(StudentClassBase):
+class TodoRead(BaseModel):
     id: int
-    student_id: int
-    created_at: datetime
-    
-    class Config:
-        from_attributes = True
+    title: str
+    description: Optional[str]
+    priority: Priority
+    status: Status
+    due_date: Optional[datetime]
+    student_id: Optional[int]
+    created_at: Optional[datetime]
+    completed_at: Optional[datetime]
 
-# Combined schemas
-class StudentWithClasses(StudentRead):
-    classes: list[StudentClassRead] = []
-    
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True) # Address Pydantic v2 warning

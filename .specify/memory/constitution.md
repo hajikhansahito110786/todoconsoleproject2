@@ -60,6 +60,32 @@ All development must follow a structured workflow to ensure quality and collabor
 - **Code Reviews:** Every PR must be reviewed and approved by at least one other developer before merging.
 - **Continuous Integration (CI):** All commits pushed to a PR must pass automated checks, including linting, type-checking, and tests.
 
+## Main Focus: Core Entities
+
+To ensure clarity and focus, the project revolves around two primary data entities:
+- **Student:** Represents the user or owner of a set of tasks.
+- **Todo:** Represents a single task item associated with a Student.
+
+All feature development should be framed in the context of how it creates, reads, updates, or deletes these core entities.
+
+## Todo App Feature Progression
+
+Development of the Todo application will follow a phased approach. Features are grouped into tiers to ensure a stable MVP can be built first, with more advanced features added in subsequent phases.
+
+### Basic Level (Core Essentials)
+These features form the foundational MVP. They must be implemented first.
+- **Add Task:** Create new todo items.
+- **Delete Task:** Remove tasks from the list.
+- **Update Task:** Modify existing task details (e.g., title, description).
+- **View Task List:** Display all tasks for a given student.
+- **Mark as Complete:** Toggle a task's completion status.
+
+### Intermediate Level (Organization & Usability)
+These features should be implemented after the Basic Level is complete to enhance the user experience.
+- **Priorities & Tags/Categories:** Assign priority levels (e.g., high/medium/low) or categorical labels (e.g., work/home) to tasks.
+- **Search & Filter:** Implement functionality to search for tasks by keyword and filter them by status, priority, or due date.
+- **Sort Tasks:** Allow users to reorder the task list based on criteria like due date, priority, or alphabetical order.
+
 ## Governance
 
 This Constitution is the single source of truth for development standards and practices. It supersedes all other conventions. Amendments to this constitution require a documented proposal, review, and an approved migration plan for existing code if necessary. All code reviews must verify compliance with these principles.
