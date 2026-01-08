@@ -41,13 +41,13 @@ const todoFeatures = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
         <header className="mb-12 text-center">
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
             Student Todo Management System
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Complete system for managing students and their tasks with Next.js, FastAPI, and Neon PostgreSQL
           </p>
         </header>
@@ -92,8 +92,8 @@ export default function Home() {
         </div>
         
         {/* Todo Features Section */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 mb-8">
+          <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
             <div>
               <h2 className="text-3xl font-bold text-gray-800">
                 Todo App Features
@@ -135,7 +135,7 @@ export default function Home() {
         </div>
         
         {/* Quick Actions */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-8 text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-6 sm:p-8 text-white">
           <h2 className="text-3xl font-bold mb-6">Quick Start</h2>
           <div className="flex flex-col md:flex-row gap-4">
             <Link

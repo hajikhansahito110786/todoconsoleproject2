@@ -1,5 +1,0 @@
-General-purpose languages: Python, Java, C++, JavaScript, Go, Rust
-Web development languages: HTML, CSS, PHP, Ruby
-Scripting languages: Bash, PowerShell
-Data science languages: R, SQL
-Markup languages : XML, JSON
