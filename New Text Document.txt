@@ -2,9 +2,10 @@
 cd D:\aa-w\tododswithsqlmodelneon5withfrontend
 python app.py
 
-
-
-
+email@email.com
+password
+admin@example.com
+admin123
 # Test backend
 curl http://localhost:8000/health
 

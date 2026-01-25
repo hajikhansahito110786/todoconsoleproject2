@@ -1,0 +1,3 @@
+E:\todowithchatbot>curl -X POST http://localhost:8002/chat -H "Content-Type: application/json" -d "{\"message\": \"show todo\"}"
+{"response":"≡ƒôï **Your Todos:**\n\n≡ƒô¥ **Complete assignment** (ID: 1, Priority: ≡ƒö┤ high, Status: todo)\n≡ƒöä **Study for exam** (ID: 2, Priority: ≡ƒƒí medium, Status: in_progress)\nΓ£à **Submit project** (ID: 3, Priority: ≡ƒö┤ high, Status: done)\n\n≡ƒôè **Total:** 3 todos\n≡ƒæ¿ΓÇì≡ƒÄô **Students:** 2\n\n≡ƒÆí **Tip:** Create new todos with 'Add New Todo' button!"}
+E:\todowithchatbot>

@@ -1,0 +1,12 @@
+✅ New Commands Supported:
+"show students" - View student list
+
+"how many todos" - Detailed statistics
+
+"due date" - Deadline management help
+
+"priority" - Priority system explanation
+
+"status" - Status tracking guide
+
+"help" - Comprehensive help menu

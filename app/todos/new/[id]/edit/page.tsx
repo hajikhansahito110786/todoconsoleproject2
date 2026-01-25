@@ -1,83 +1,63 @@
+// app/todos/[id]/edit/page.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-
-interface Todo {
-  id: number;
-  title: string;
-  description: string | null;
-  priority: 'low' | 'medium' | 'high';
-  status: 'todo' | 'in_progress' | 'done';
-  due_date: string | null;
-  student_id: number | null;
-  created_at: string;
-  completed_at: string | null;
-}
-
-interface Student {
-  id: number;
-  name: string;
-  email: string;
-}
+import { useUser } from '../../context/UserContext';
 
 export default function EditTodoPage() {
   const router = useRouter();
   const params = useParams();
-  const todoId = params.id;
+  const todoId = params.id as string;
+  const { userEmail } = useUser();
   
-  const [todo, setTodo] = useState<Todo | null>(null);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    priority: 'medium' as 'low' | 'medium' | 'high',
-    status: 'todo' as 'todo' | 'in_progress' | 'done',
+    priority: 'medium',
+    status: 'todo',
     due_date: '',
-    student_id: '' as string | number
+    student_id: 0
   });
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
+  // Fetch todo details and students
   useEffect(() => {
-    if (todoId) {
-      fetchData();
-    }
-  }, [todoId]);
+    const fetchData = async () => {
+      try {
+        // Fetch todo
+        const todoResponse = await fetch(`http://localhost:8000/todos/${todoId}`);
+        if (todoResponse.ok) {
+          const todoData = await todoResponse.json();
+          setFormData({
+            title: todoData.title || '',
+            description: todoData.description || '',
+            priority: todoData.priority || 'medium',
+            status: todoData.status || 'todo',
+            due_date: todoData.due_date ? todoData.due_date.split('T')[0] : '',
+            student_id: todoData.student_id || 0
+          });
+        } else {
+          throw new Error('Todo not found');
+        }
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const [todoRes, studentsRes] = await Promise.all([
-        fetch(`http://localhost:8000/todos/${todoId}`),
-        fetch('http://localhost:8000/students/')
-      ]);
-      
-      if (!todoRes.ok) throw new Error('Todo not found');
-      if (!studentsRes.ok) throw new Error('Failed to fetch students');
-      
-      const todoData: Todo = await todoRes.json();
-      const studentsData = await studentsRes.json();
-      
-      setTodo(todoData);
-      setStudents(studentsData);
-      
-      // Format data for form
-      setFormData({
-        title: todoData.title,
-        description: todoData.description || '',
-        priority: todoData.priority,
-        status: todoData.status,
-        due_date: todoData.due_date ? todoData.due_date.split('T')[0] + 'T' + todoData.due_date.split('T')[1].substring(0, 5) : '',
-        student_id: todoData.student_id || ''
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch data');
-    } finally {
-      setLoading(false);
-    }
-  };
+        // Fetch students
+        const studentsResponse = await fetch('http://localhost:8000/students/');
+        if (studentsResponse.ok) {
+          const studentsData = await studentsResponse.json();
+          setStudents(studentsData);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load data');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [todoId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,16 +65,21 @@ export default function EditTodoPage() {
     setError('');
 
     try {
+      // Prepare data
       const todoData = {
-        ...formData,
-        student_id: formData.student_id ? parseInt(formData.student_id as string) : null,
-        due_date: formData.due_date || null
+        title: formData.title,
+        description: formData.description,
+        priority: formData.priority,
+        status: formData.status,
+        due_date: formData.due_date || null,
+        student_id: formData.student_id === 0 ? null : formData.student_id
       };
 
       const response = await fetch(`http://localhost:8000/todos/${todoId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'x-user-email': userEmail || '',
         },
         body: JSON.stringify(todoData),
       });
@@ -117,35 +102,16 @@ export default function EditTodoPage() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'student_id' ? parseInt(value) || 0 : value
     }));
-  };
-
-  const handleMarkComplete = async () => {
-    if (!confirm('Mark this todo as complete?')) return;
-    
-    try {
-      const response = await fetch(`http://localhost:8000/todos/${todoId}/complete`, {
-        method: 'PUT',
-      });
-      
-      if (!response.ok) throw new Error('Failed to mark todo as complete');
-      
-      router.push('/todos');
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update todo');
-    }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading todo data...</p>
-          </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading todo...</p>
         </div>
       </div>
     );
@@ -156,7 +122,24 @@ export default function EditTodoPage() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Edit Todo</h1>
-          <p className="text-gray-600 mt-2">Update task information</p>
+          <p className="text-gray-600 mt-2">Update todo #{todoId}</p>
+          
+          {userEmail ? (
+            <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-sm text-green-700">
+                📧 Updating as: <span className="font-semibold">{userEmail}</span>
+              </p>
+              <p className="text-xs text-green-600 mt-1">
+                This email will be recorded as the updater
+              </p>
+            </div>
+          ) : (
+            <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-sm text-yellow-700">
+                ⚠️ Not logged in. Please <a href="/login" className="underline">login</a> first.
+              </p>
+            </div>
+          )}
         </div>
         
         {error && (
@@ -177,7 +160,9 @@ export default function EditTodoPage() {
                 value={formData.title}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter todo title"
                 required
+                disabled={!userEmail}
               />
             </div>
             
@@ -189,22 +174,24 @@ export default function EditTodoPage() {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                rows={3}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter todo description"
+                rows={3}
+                disabled={!userEmail}
               />
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Priority *
+                  Priority
                 </label>
                 <select
                   name="priority"
                   value={formData.priority}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
+                  disabled={!userEmail}
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -214,87 +201,64 @@ export default function EditTodoPage() {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Status *
+                  Status
                 </label>
                 <select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
+                  disabled={!userEmail}
                 >
                   <option value="todo">Todo</option>
                   <option value="in_progress">In Progress</option>
                   <option value="done">Done</option>
                 </select>
               </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Due Date
                 </label>
                 <input
-                  type="datetime-local"
+                  type="date"
                   name="due_date"
                   value={formData.due_date}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  disabled={!userEmail}
                 />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Assign to Student
-                </label>
-                <select
-                  name="student_id"
-                  value={formData.student_id}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">No student assigned</option>
-                  {students.map(student => (
-                    <option key={student.id} value={student.id}>
-                      {student.name} ({student.email})
-                    </option>
-                  ))}
-                </select>
               </div>
             </div>
             
-            {todo && (
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-medium text-gray-700 mb-2">Todo Information</h3>
-                <div className="text-sm text-gray-600 space-y-1">
-                  <p>Created: {new Date(todo.created_at).toLocaleString()}</p>
-                  {todo.completed_at && (
-                    <p>Completed: {new Date(todo.completed_at).toLocaleString()}</p>
-                  )}
-                  <p>Todo ID: {todo.id}</p>
-                </div>
-              </div>
-            )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Assign to Student (Optional)
+              </label>
+              <select
+                name="student_id"
+                value={formData.student_id}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                disabled={!userEmail}
+              >
+                <option value="0">-- Unassigned --</option>
+                {students.map((student) => (
+                  <option key={student.id} value={student.id}>
+                    {student.name} ({student.email})
+                  </option>
+                ))}
+              </select>
+            </div>
             
-            <div className="flex space-x-4 pt-6">
+            <div className="flex space-x-4 pt-4">
               <button
                 type="submit"
-                disabled={submitting}
-                className="flex-1 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200 disabled:opacity-50"
+                disabled={submitting || !userEmail}
+                className="flex-1 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? 'Updating...' : 'Update Todo'}
               </button>
-              
-              {todo?.status !== 'done' && (
-                <button
-                  type="button"
-                  onClick={handleMarkComplete}
-                  className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition duration-200"
-                >
-                  Mark Complete
-                </button>
-              )}
               
               <button
                 type="button"

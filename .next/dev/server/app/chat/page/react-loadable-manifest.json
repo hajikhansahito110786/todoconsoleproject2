@@ -1,0 +1,9 @@
+{
+  "[project]/app/components/ChatInterface.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/app/components/ChatInterface.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_9ec85a22._.js",
+      "static/chunks/app_components_ChatInterface_tsx_6de54666._.js"
+    ]
+  }
+}
